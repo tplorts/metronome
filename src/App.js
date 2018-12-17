@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Button } from 'react-native';
+import SquareTicker from './SquareTicker';
 import styles from './App.style';
 
 
@@ -20,6 +21,7 @@ export default class App extends PureComponent {
         onPress={ this.togglePlaying }
         title={ this.state.playing ? 'stop' : 'start' }
       />
+      <SquareTicker playing={ this.state.playing } />
     </View>
   );
 }
