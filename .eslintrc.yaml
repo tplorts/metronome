@@ -1,0 +1,186 @@
+extends: airbnb
+
+# Allows ESLint to understand new/experimental syntax
+parser: babel-eslint
+
+plugins:
+- jest
+- babel
+- jsx-max-len
+- unicorn
+- lodash
+- react-native
+
+env:
+  # So that eslint won't complain about globally referenced jest functions.
+  # Like: beforeEach, test, expect
+  jest/globals: true
+
+settings:
+  import/resolver:
+    node:
+      extensions:
+      - .js
+      - .json
+      - .ios.js
+      - .android.js
+
+rules:
+
+  parameters:
+    lineLength: &maxLineLength 100
+
+  ######################
+  # General JavaScript #
+  ######################
+
+  max-len:
+  - error
+  - code: *maxLineLength
+
+  no-console:
+  - error
+  - allow:
+    - warn
+    - error
+    - info
+
+  no-underscore-dangle: off
+
+  # Don't allow anonymous functions.  Helps with debugging from stacktraces.
+  func-names:
+  - error
+  - as-needed
+
+  # Only require parentheses around the parameters of an arrow function when there are multiple parameters.
+  arrow-parens:
+  - error
+  - as-needed
+  - requireForBlockBody: false
+
+  # Adds semicolon requirement to new syntaxes like class properties
+  babel/semi:
+  - error
+  - always
+
+  # Allow Function Hoisting
+  no-use-before-define: off
+
+  # Require all blocks (ifs, loops, etc.) to have curly braces
+  curly:
+  - error
+  - all
+
+  # It's up to us to decide when it makes sense to have a default vs named export
+  import/prefer-default-export: off
+
+  # Forbid generally disabling eslint without specifying which rules to disable
+  unicorn/no-abusive-eslint-disable: error
+
+  # Do no explicitly import an index file
+  unicorn/import-index: error
+
+  # Always do: import _ from 'lodash';
+  lodash/import-scope:
+  - error
+  - full
+
+  ##################
+  # React-Specific #
+  ##################
+
+  # Sometimes we need to import React even if not directly referencing it.
+  no-unused-vars:
+  - error
+  - varsIgnorePattern: ^React$
+
+  # Enforcing single-quotes in JSX for consistency
+  jsx-quotes:
+  - error
+  - prefer-single
+
+  # Turning off because we often scaffold a component as a class with the
+  # intention of building it out later, even if it starts with nothing but
+  # a basic render() method.
+  react/prefer-stateless-function: off
+
+  # Allows js files to contain jsx (airbnb only allowed jsx files)
+  react/jsx-filename-extension:
+  - error
+  - extensions: ['.jsx', '.js']
+
+  react/forbid-prop-types:
+  - error
+  - forbid:
+    - any
+    - array
+
+  # Only check prop types when we have created a propType declaration
+  react/prop-types:
+  - error
+  - skipUndeclared: true
+
+  # This rule can force us into unnatural orderings of methods/properties
+  react/sort-comp: off
+
+  # There are many instances where it's neater to access state/props
+  # directly (without destructuring them)
+  react/destructuring-assignment: off
+
+  # It's often convenient to combine mutliple raw text pieces on the same line
+  react/jsx-one-expression-per-line: off
+
+  # Force spacing in JSX curly braces
+  react/jsx-curly-spacing:
+  - error
+  - when: always
+    children: true
+
+  # Enforce line length for JSX
+  jsx-max-len/jsx-max-len:
+  - error
+  - lineMaxLength: *maxLineLength
+
+  # Catches text where it shouldn't be: outside of Text-like elements
+  # Raw text causes RSOD on Android
+  react-native/no-raw-text:
+  - error
+  - skip:
+    - H1
+    - H2
+    - H3
+    - H4
+    - Title
+    - Subtitle
+
+  # Permit the import of devDependencies in all test- or Reactotron-related files
+  import/no-extraneous-dependencies:
+  - error
+  - devDependencies:
+    - 'e2e/**'
+    - '**/*.test.js'
+    - '**/__mocks__/*'
+    - '**/*Reactotron*'
+    - 'scripts/**'
+    - 'jest.setup.js'
+
+###############################################
+overrides:
+
+# Style files
+#############
+- files: ['**/*.style.js']
+  rules:
+    # Alphabetically ordered keys helps us find stuff in those mammoth objects
+    sort-keys:
+    - warn
+    - asc
+    - caseSensitive: true
+      natural: true
+
+# Test files
+############
+- files: ['**/*.test.js']
+  rules:
+    # test cases ('it' blocks) should always be allowed to use curly brace bodies
+    arrow-body-style: off
