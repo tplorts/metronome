@@ -12,6 +12,7 @@ export default class App extends PureComponent {
   };
 
   togglePlaying = () => {
+    Video.
     this.setState(priorState => ({
       playing: !priorState.playing,
     }));
