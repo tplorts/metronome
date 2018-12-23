@@ -20,6 +20,14 @@ If you just want to see the app run, you can forget about Android till later and
 
 ## Running
 
-Run the following in this directory (the project root):  
-- `react-native run-ios`
-- `react-native run-android`
+When you first get the project, or whenever someone else has added a javascript dependency, run:  
+`yarn`  
+That installs any missing NPM packages.  There's no harm in running it just to check.
+
+For iOS specifically, run:  
+`yarn cocoapods`  
+any time new CocoaPods have been added.
+
+If the project's dependencies are ready, run:  
+- `yarn ios`
+- `yarn android`
