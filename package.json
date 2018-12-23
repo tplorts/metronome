@@ -5,6 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "cocoapods": "cd ios && pod install",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
