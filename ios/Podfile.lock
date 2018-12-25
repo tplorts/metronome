@@ -45,6 +45,11 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNSound (0.10.9):
+    - React/Core
+    - RNSound/Core (= 0.10.9)
+  - RNSound/Core (0.10.9):
+    - React/Core
   - yoga (0.57.8.React)
 
 DEPENDENCIES:
@@ -59,6 +64,7 @@ DEPENDENCIES:
   - React/RCTNetwork (from `../node_modules/react-native`)
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNSound (from `../node_modules/react-native-sound`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -76,6 +82,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-video:
     :path: "../node_modules/react-native-video/react-native-video.podspec"
+  RNSound:
+    :path: "../node_modules/react-native-sound"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -86,8 +94,9 @@ SPEC CHECKSUMS:
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
   react-native-video: 44c6befbc1526283ca1919891fcebe4680feade4
+  RNSound: b360b3862d3118ed1c74bb9825696b5957686ac4
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 2515032502160a75f2dc78f8b8a38acc5e1f0415
+PODFILE CHECKSUM: 957b096c8e73816955563a862125ad36cdff260a
 
 COCOAPODS: 1.5.3
