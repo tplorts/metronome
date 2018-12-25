@@ -11,7 +11,7 @@ export default class SquareTicker extends PureComponent {
   intervalId = null;
 
   start() {
-    this.intervalId = setInterval(this.tick, 500);
+    this.intervalId = setInterval(this.tick, ((60/this.props.tempoVal)*1000));
   }
 
   stop() {

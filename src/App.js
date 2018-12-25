@@ -16,7 +16,8 @@ export default class App extends PureComponent {
       soundSrc: undefined,
       playing: false,
       soundPath: 'woodblock.wav',
-      intervalID: undefined
+      intervalID: undefined,
+      tempoVal: 120
     }
   }
 
@@ -39,7 +40,7 @@ export default class App extends PureComponent {
     if (!this.state.playing) {
       var intervalID = setInterval(() => {
         tempSound.play()
-      }, 500);
+      }, ((60/this.state.tempoVal)*1000)); // should this calculation happen somewhere else?
       this.setState({ intervalID: intervalID }); // how to properly handle these setStates
     } else {
       clearInterval(this.state.intervalID);
@@ -51,15 +52,25 @@ export default class App extends PureComponent {
     }));
   };
 
+  handleSlider = (value) => {
+    this.setState({ tempoVal: value });
+  }
+
   render = () => (
     <View style={ styles.container }>
       <Button
         onPress={ this.togglePlaying }
         title={ this.state.playing ? 'stop' : 'start' }
       />
-      <SquareTicker playing={ this.state.playing } />
+      <SquareTicker 
+        playing={ this.state.playing }
+        tempoVal={this.state.tempoVal}  
+      />
       {/* <Video source={ woodblockSound } /> */}
-      <TempoSelect />
+      <TempoSelect 
+        tempoVal={this.state.tempoVal}
+        handleSlider={this.handleSlider.bind(this)}
+      />
     </View>
   );
 }
