@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, Button } from 'react-native';
 // import Video from 'react-native-video';
 import SquareTicker from './SquareTicker';
+import TempoSelect from './TempoSelect';
 // import woodblockSound from './woodblock.wav';
 import styles from './App.style';
 import Sound from 'react-native-sound';
@@ -58,6 +59,7 @@ export default class App extends PureComponent {
       />
       <SquareTicker playing={ this.state.playing } />
       {/* <Video source={ woodblockSound } /> */}
+      <TempoSelect />
     </View>
   );
 }
