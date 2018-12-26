@@ -13,12 +13,13 @@ import Sound from 'react-native-sound';
 
 let tickSound = null;
 let clickSound = null;
+let chickSound = null;
 
 export default class App extends PureComponent {
   state = {
     soundSrc: undefined, // stores an array of Sound objects
     playing: false,
-    soundPath: ['woodblock.wav', 'woodblock2.wav'],
+    soundPath: ['woodblock.wav', 'woodblock2.wav', 'woodblock3.wav'],
     intervalID: undefined, // tracks current setInterval session
     tempoVal: 120,
     playingIndex: 0, // internal index for playback
@@ -43,7 +44,15 @@ export default class App extends PureComponent {
       // successful load
       console.log("duration in seconds: " + clickSound.getDuration() + ' number of channels: ' + clickSound.getNumberOfChannels());
     });
-    this.setState({ soundSrc: [tickSound, clickSound] });
+    chickSound = new Sound(this.state.soundPath[2], Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('failed to load sound', error);
+        return;
+      }
+      // successful load
+      console.log("duration in seconds: " + clickSound.getDuration() + ' number of channels: ' + clickSound.getNumberOfChannels());
+    });
+    this.setState({ soundSrc: [tickSound, clickSound, chickSound] });
   }
 
   // multiple setState philosophy?
@@ -53,13 +62,15 @@ export default class App extends PureComponent {
         var tempIndex = this.state.playingIndex;
         if (tempIndex === 0) {
           tickSound.play();
+        } else if (tempIndex % 2 === 0) {
+          chickSound.play();
         } else {
           clickSound.play();
         }
-        this.setState({ playingIndex: (tempIndex + 1) % this.state.meterVal === 0 ? 0 : tempIndex + 1}, () => {
+        this.setState({ playingIndex: (tempIndex + 1) % (this.state.meterVal * 2) === 0 ? 0 : tempIndex + 1}, () => {
           console.log(this.state.playingIndex); // logs current beat
         });
-      }, ((60/this.state.tempoVal)*1000));
+      }, ((30/this.state.tempoVal)*1000)); // first number (default: 60) sets the resolution of setInterval - quarters(60), eighths(30), sixteenths(15)...
       this.setState({ intervalID: intervalID }); 
     } else {
       clearInterval(this.state.intervalID);
