@@ -1,29 +1,28 @@
 import React, { PureComponent } from 'react';
 import { View, Button } from 'react-native';
-// import Video from 'react-native-video';
 import SquareTicker from './SquareTicker';
 import TempoSelect from './TempoSelect';
-// import woodblockSound from './woodblock.wav';
 import styles from './App.style';
 import Sound from 'react-native-sound';
 
+// - SP - needs to rename sounds
+
+let wbSound = null;
+let clickSound = null;
 
 export default class App extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      soundSrc: undefined,
-      playing: false,
-      soundPath: 'woodblock.wav',
-      intervalID: undefined,
-      tempoVal: 120
-    }
+  state = {
+    soundSrc: undefined,
+    playing: false,
+    soundPath: ['woodblock.wav', 'woodblock2.wav'],
+    intervalID: undefined,
+    tempoVal: 120,
+    playingIndex: 0
   }
 
   componentWillMount() {
     Sound.setCategory('Playback');
-    var wbSound = new Sound(this.state.soundPath, Sound.MAIN_BUNDLE, (error) => {
+    wbSound = new Sound(this.state.soundPath[0], Sound.MAIN_BUNDLE, (error) => {
       if (error) {
         console.log('failed to load sound', error);
         return;
@@ -31,21 +30,35 @@ export default class App extends PureComponent {
       // successful load
       console.log("duration in seconds: " + wbSound.getDuration() + ' number of channels: ' + wbSound.getNumberOfChannels());
     });
-    this.setState({ soundSrc: wbSound })
+    clickSound = new Sound(this.state.soundPath[1], Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('failed to load sound', error);
+        return;
+      }
+      // successful load
+      console.log("duration in seconds: " + clickSound.getDuration() + ' number of channels: ' + clickSound.getNumberOfChannels());
+    });
+    this.setState({ soundSrc: [wbSound, clickSound] });
   }
 
   // multiple setState philosophy?
-  togglePlaying = () => {
-    var tempSound = this.state.soundSrc; // use wbSound for this name or too confusing?
+  togglePlaying = () => { // starts pattern on 2nd beat, must fix
     if (!this.state.playing) {
       var intervalID = setInterval(() => {
-        tempSound.play()
-      }, ((60/this.state.tempoVal)*1000)); // should this calculation happen somewhere else?
-      this.setState({ intervalID: intervalID }); // how to properly handle these setStates
+        var tempIndex = this.state.playingIndex;
+        if (tempIndex === 0) {
+          wbSound.play();
+        } else {
+          clickSound.play();
+        }
+        this.setState({ playingIndex: (tempIndex + 1) % 4 === 0 ? 0 : tempIndex + 1}, () => {
+          console.log(this.state.playingIndex); // logs current beat
+        });
+      }, ((60/this.state.tempoVal)*1000));
+      this.setState({ intervalID: intervalID }); 
     } else {
       clearInterval(this.state.intervalID);
-      tempSound.stop() // this may not be necessary
-      this.setState({ intervalID: null }); // possible to combine with lower setState?
+      this.setState({ intervalID: null });
     }
     this.setState(priorState => ({
       playing: !priorState.playing,
@@ -66,11 +79,11 @@ export default class App extends PureComponent {
         playing={ this.state.playing }
         tempoVal={this.state.tempoVal}  
       />
-      {/* <Video source={ woodblockSound } /> */}
       <TempoSelect 
         tempoVal={this.state.tempoVal}
         handleSlider={this.handleSlider.bind(this)}
       />
+      {/* <MeterSelect /> */}
     </View>
   );
 }
