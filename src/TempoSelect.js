@@ -10,7 +10,7 @@ export default class TempoSelect extends PureComponent {
 
     sliderChange(value) {
         this.setState({value});
-        this.props.handleSlider(value);
+        this.props.handleTempoSlider(value);
     }
 
     render = () => (
