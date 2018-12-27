@@ -11,6 +11,7 @@ import QuarterVolume from './QuarterVolume';
 // --- Does MeterSelect and TempoSelect require their own state, or can everything be handled through props?
 // - Performance issues at beginning 500ms of playback - something runs in the main thread in the beginning, delaying execution of 1st (maybe 2nd) ticks
 // - Making tempo change dynamically - would have to quickly clear and restart setInterval, but could be a mess if slider is read continuously
+// - Shorter sounds (0.035s) allow the rhythms to be precise at most tempi
 
 // global sound sources
 let tickSound = null;
@@ -21,7 +22,7 @@ export default class App extends PureComponent {
   state = {
     soundSrc: undefined, // stores an array of Sound objects
     playing: false,
-    soundPath: ['woodblock.wav', 'woodblock2.wav', 'woodblock3.wav'],
+    soundPath: ['beep1.wav', 'beep2.wav', 'beep3.wav'],
     intervalID: undefined, // tracks current setInterval session
     tempoVal: 120,
     playingIndex: 0, // internal index for playback
