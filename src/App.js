@@ -8,10 +8,12 @@ import Sound from 'react-native-sound';
 import SubdivisionSlider from './SubdivisionSlider';
 import QuarterVolume from './QuarterVolume';
 import SubdivisionSelect from './SubdivisionSelect';
+import BeatDisplay from './BeatDisplay';
 
 // - Does MeterSelect and TempoSelect require their own state, or can everything be handled through props?
 // - Making tempo change dynamically - would have to quickly clear and restart setInterval, but could be a mess if slider is read continuously
 // - Possibly make general clear/reset method to make tempo and subdivision select dynamic
+// - Need to fix beat display
 
 // global sound sources
 let tickSound = null;
@@ -77,12 +79,13 @@ export default class App extends PureComponent {
         }
         this.setState({ playingIndex: (tempIndex + 1) % (this.state.meterVal * (tempVal)) === 0 ? 0 : tempIndex + 1}, () => {
           console.log(this.state.playingIndex); // logs current beat
+          // update BeatDisplay
         });
       }, (((60/tempVal)/this.state.tempoVal)*1000)); // sets the resolution of setInterval - quarters(60), eighths(30), sixteenths(15)...
       this.setState({ intervalID: intervalID }); 
     } else {
       clearInterval(this.state.intervalID);
-      this.setState({ intervalID: null });
+      this.setState({ intervalID: null, playingIndex: 0 });
     }
     this.setState(priorState => ({
       playing: !priorState.playing,
@@ -114,6 +117,10 @@ export default class App extends PureComponent {
 
   render = () => (
     <View style={ styles.container }>
+      <BeatDisplay
+        playing={this.state.playing}
+        playingIndex={this.state.playingIndex}
+      />
       <Button
         onPress={ this.togglePlaying }
         title={ this.state.playing ? 'stop' : 'start' }

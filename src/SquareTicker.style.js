@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 
-
 const size = 100;
 
 export default StyleSheet.create({
@@ -15,5 +14,5 @@ export default StyleSheet.create({
   wrapper: {
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 });

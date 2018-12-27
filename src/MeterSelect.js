@@ -4,10 +4,6 @@ import { Text } from 'react-native-elements';
 import styles from './MeterSelect.style';
 
 export default class MeterSelect extends PureComponent {
-    state = {
-        value: this.props.meterVal
-    }
-
     sliderChange(value) {
         this.setState({value});
         this.props.handleMeterSlider(value);
@@ -18,12 +14,12 @@ export default class MeterSelect extends PureComponent {
             <Slider
                 style={{ width: 150 }}
                 step={1} 
-                value={this.state.value}
+                value={this.props.meterVal}
                 onValueChange={(value) => {this.sliderChange(value)}}
                 maximumValue={9}
                 minimumValue={1}
             />
-            <Text>Meter - {this.state.value}/4</Text>
+            <Text>Meter - {this.props.meterVal}/4</Text>
         </View>
     );
 }

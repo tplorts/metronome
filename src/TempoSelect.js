@@ -4,10 +4,6 @@ import { Text } from 'react-native-elements';
 import styles from './TempoSelect.style';
 
 export default class TempoSelect extends PureComponent {
-    state = {
-        value: this.props.tempoVal
-    }
-
     sliderChange(value) {
         this.setState({value});
         this.props.handleTempoSlider(value);
@@ -18,12 +14,12 @@ export default class TempoSelect extends PureComponent {
             <Slider
                 style={{ width: 150 }}
                 step={1} 
-                value={this.state.value}
+                value={this.props.tempoVal}
                 onValueChange={(value) => {this.sliderChange(value)}}
                 maximumValue={240}
                 minimumValue={30}
             />
-            <Text>Tempo - {this.state.value} bpm</Text>
+            <Text>Tempo - {this.props.tempoVal} bpm</Text>
         </View>
     );
 }

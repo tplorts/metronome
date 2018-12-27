@@ -4,10 +4,6 @@ import { Text } from 'react-native-elements';
 import styles from './TempoSelect.style';
 
 export default class SubdivisionSlider extends PureComponent {
-    state = {
-        value: this.props.subdivisionVolume
-    }
-
     sliderChange(value) {
         this.setState({value});
         this.props.handleSubdivisionSlider(value);
@@ -18,12 +14,12 @@ export default class SubdivisionSlider extends PureComponent {
             <Slider
                 style={{ width: 150 }}
                 step={1} 
-                value={this.state.value}
+                value={this.props.subdivisionVolume}
                 onValueChange={(value) => {this.sliderChange(value)}}
                 maximumValue={10}
                 minimumValue={0}
             />
-            <Text>Subdivision Volume => {this.state.value}</Text>
+            <Text>Subdivision Volume => {this.props.subdivisionVolume}</Text>
         </View>
     );
 }
