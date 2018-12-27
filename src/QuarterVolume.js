@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react';
 import { View, Slider } from 'react-native';
 import { Text } from 'react-native-elements';
-import styles from './MeterSelect.style';
+import styles from './TempoSelect.style';
 
-export default class MeterSelect extends PureComponent {
+export default class QuarterVolume extends PureComponent {
     state = {
-        value: this.props.meterVal
+        value: this.props.quarterVolume
     }
 
     sliderChange(value) {
         this.setState({value});
-        this.props.handleMeterSlider(value);
+        this.props.handleQuarterVolume(value);
     }
 
     render = () => (
@@ -20,10 +20,10 @@ export default class MeterSelect extends PureComponent {
                 step={1} 
                 value={this.state.value}
                 onValueChange={(value) => {this.sliderChange(value)}}
-                maximumValue={9}
-                minimumValue={1}
+                maximumValue={10}
+                minimumValue={0}
             />
-            <Text>Meter - {this.state.value}/4</Text>
+            <Text>Quarter Note Pulse Volume => {this.state.value}</Text>
         </View>
     );
 }

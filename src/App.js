@@ -6,6 +6,7 @@ import MeterSelect from './MeterSelect';
 import styles from './App.style';
 import Sound from 'react-native-sound';
 import SubdivisionSlider from './SubdivisionSlider';
+import QuarterVolume from './QuarterVolume';
 
 // --- Does MeterSelect and TempoSelect require their own state, or can everything be handled through props?
 // - Performance issues at beginning 500ms of playback - something runs in the main thread in the beginning, delaying execution of 1st (maybe 2nd) ticks
@@ -25,7 +26,8 @@ export default class App extends PureComponent {
     tempoVal: 120,
     playingIndex: 0, // internal index for playback
     meterVal: 4,
-    subdivisionVolume: 5
+    subdivisionVolume: 5,
+    quarterVolume: 5
   }
 
   componentWillMount() {
@@ -92,6 +94,12 @@ export default class App extends PureComponent {
     this.setState({ meterVal: value });
   }
 
+  handleQuarterVolume = (value) => {
+    tickSound.setVolume(value/10);
+    chickSound.setVolume(value/10);
+    this.setState({ quarterVolume: value })
+  }
+
   handleSubdivisionSlider = (value) => {
     clickSound.setVolume(value/10);
     this.setState({ subdivisionVolume: value })
@@ -114,6 +122,10 @@ export default class App extends PureComponent {
       <MeterSelect 
         handleMeterSlider={this.handleMeterSlider.bind(this)}
         meterVal={this.state.meterVal}
+      />
+      <QuarterVolume
+        quarterVolume={this.state.quarterVolume}
+        handleQuarterVolume={this.handleQuarterVolume.bind(this)}
       />
       <SubdivisionSlider 
         subdivisionVolume={this.state.subdivisionVolume}
