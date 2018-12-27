@@ -7,11 +7,11 @@ import styles from './App.style';
 import Sound from 'react-native-sound';
 import SubdivisionSlider from './SubdivisionSlider';
 import QuarterVolume from './QuarterVolume';
+import SubdivisionSelect from './SubdivisionSelect';
 
-// --- Does MeterSelect and TempoSelect require their own state, or can everything be handled through props?
-// - Performance issues at beginning 500ms of playback - something runs in the main thread in the beginning, delaying execution of 1st (maybe 2nd) ticks
+// - Does MeterSelect and TempoSelect require their own state, or can everything be handled through props?
 // - Making tempo change dynamically - would have to quickly clear and restart setInterval, but could be a mess if slider is read continuously
-// - Shorter sounds (0.035s) allow the rhythms to be precise at most tempi
+// - Possibly make general clear/reset method to make tempo and subdivision select dynamic
 
 // global sound sources
 let tickSound = null;
@@ -27,6 +27,7 @@ export default class App extends PureComponent {
     tempoVal: 120,
     playingIndex: 0, // internal index for playback
     meterVal: 4,
+    subdivisionVal: 0, // default quarter notes - see render method of SubdivisionSelect
     subdivisionVolume: 5,
     quarterVolume: 5
   }
@@ -63,20 +64,21 @@ export default class App extends PureComponent {
 
   // multiple setState philosophy?
   togglePlaying = () => { // starts pattern on 2nd beat, must fix
+    var tempVal = this.state.subdivisionVal + 1;
     if (!this.state.playing) {
       var intervalID = setInterval(() => {
         var tempIndex = this.state.playingIndex;
         if (tempIndex === 0) {
           tickSound.play();
-        } else if (tempIndex % 2 === 0) { // quarter note pulse
+        } else if (tempIndex % (tempVal) === 0) { // quarter note pulse
           chickSound.play();
         } else { // subdivisions
           clickSound.play();
         }
-        this.setState({ playingIndex: (tempIndex + 1) % (this.state.meterVal * 2) === 0 ? 0 : tempIndex + 1}, () => {
+        this.setState({ playingIndex: (tempIndex + 1) % (this.state.meterVal * (tempVal)) === 0 ? 0 : tempIndex + 1}, () => {
           console.log(this.state.playingIndex); // logs current beat
         });
-      }, (((30)/this.state.tempoVal)*1000)); // first number sets the resolution of setInterval - quarters(60), eighths(30), sixteenths(15)...
+      }, (((60/tempVal)/this.state.tempoVal)*1000)); // sets the resolution of setInterval - quarters(60), eighths(30), sixteenths(15)...
       this.setState({ intervalID: intervalID }); 
     } else {
       clearInterval(this.state.intervalID);
@@ -98,13 +100,17 @@ export default class App extends PureComponent {
   handleQuarterVolume = (value) => {
     tickSound.setVolume(value/10);
     chickSound.setVolume(value/10);
-    this.setState({ quarterVolume: value })
+    this.setState({ quarterVolume: value });
   }
 
   handleSubdivisionSlider = (value) => {
     clickSound.setVolume(value/10);
-    this.setState({ subdivisionVolume: value })
-  } 
+    this.setState({ subdivisionVolume: value });
+  }
+
+  handleSubdivisionSelect = (value) => { // not dynamic
+    this.setState({ subdivisionVal: value });
+  }
 
   render = () => (
     <View style={ styles.container }>
@@ -123,6 +129,10 @@ export default class App extends PureComponent {
       <MeterSelect 
         handleMeterSlider={this.handleMeterSlider.bind(this)}
         meterVal={this.state.meterVal}
+      />
+      <SubdivisionSelect
+        subdivisionVal={this.state.subdivisionVal}
+        handleSubdivisionSelect={this.handleSubdivisionSelect.bind(this)}
       />
       <QuarterVolume
         quarterVolume={this.state.quarterVolume}
