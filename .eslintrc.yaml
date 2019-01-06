@@ -38,12 +38,12 @@ rules:
   - error
   - code: *maxLineLength
 
-  no-console:
-  - error
-  - allow:
-    - warn
-    - error
-    - info
+  no-console: off
+  # - error
+  # - allow:
+  #   - warn
+  #   - error
+  #   - info
 
   no-underscore-dangle: off
 
@@ -55,8 +55,7 @@ rules:
   # Only require parentheses around the parameters of an arrow function when there are multiple parameters.
   arrow-parens:
   - error
-  - as-needed
-  - requireForBlockBody: false
+  - always
 
   # Adds semicolon requirement to new syntaxes like class properties
   babel/semi:
