@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import {
   Button, Text, Slider, View, NativeModules,
 } from 'react-native';
-import styles from './App.style';
+import styles from './src/App.style';
+
+console.log(NativeModules.Metronome);
 
 export default class App extends PureComponent {
   state = {
@@ -13,28 +15,28 @@ export default class App extends PureComponent {
   };
 
   componentWillMount() {
-    // NativeModules.Metronome.prepareToPlay()
+    NativeModules.Metronome.prepareToPlay();
   }
 
 
-  pressPlay() {
-    // NativeModules.Metronome.pressPlay()
-  }
+  pressPlay = () => {
+    NativeModules.Metronome.pressPlay();
+  };
 
-  pressStop() {
-    // NativeModules.Metronome.pressStop()
-  }
+  pressStop = () => {
+    NativeModules.Metronome.pressStop();
+  };
 
   onTempoChange(value) {
-    console.log('tempo is: ' + value);
-    this.setState({ tempo: value })
-    // NativeModules.Metronome.onTempoChange(value)
+    console.log(`tempo: ${value}`);
+    this.setState({ tempo: value });
+    NativeModules.Metronome.onTempoChange(value)
   }
 
   onMeterChange(value) {
     this.setState({ meter: value }, () => {
-      console.log(`meter: ${this.state.meter}/4`)
-      // NativeModules.Metronome.onMeterChange(value)
+      console.log(`meter: ${this.state.meter}/4`);
+      NativeModules.Metronome.onMeterChange(value)
     });
   }
 

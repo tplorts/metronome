@@ -1,4 +1,10 @@
 PODS:
+  - AudioKit (4.5.5):
+    - AudioKit/Core (= 4.5.5)
+    - AudioKit/UI (= 4.5.5)
+  - AudioKit/Core (4.5.5)
+  - AudioKit/UI (4.5.5):
+    - AudioKit/Core
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
   - Folly (2016.10.31.00):
@@ -6,13 +12,6 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - React (0.57.8):
-    - React/Core (= 0.57.8)
-  - react-native-video (4.2.0):
-    - React
-    - react-native-video/Video (= 4.2.0)
-  - react-native-video/Video (4.2.0):
-    - React
   - React/Core (0.57.8):
     - yoga (= 0.57.8.React)
   - React/CxxBridge (0.57.8):
@@ -45,18 +44,13 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - RNSound (0.10.9):
-    - React/Core
-    - RNSound/Core (= 0.10.9)
-  - RNSound/Core (0.10.9):
-    - React/Core
   - yoga (0.57.8.React)
 
 DEPENDENCIES:
+  - AudioKit
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - react-native-video (from `../node_modules/react-native-video/react-native-video.podspec`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
@@ -64,11 +58,11 @@ DEPENDENCIES:
   - React/RCTNetwork (from `../node_modules/react-native`)
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
-  - RNSound (from `../node_modules/react-native-sound`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - AudioKit
     - boost-for-react-native
 
 EXTERNAL SOURCES:
@@ -80,23 +74,18 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
-  react-native-video:
-    :path: "../node_modules/react-native-video/react-native-video.podspec"
-  RNSound:
-    :path: "../node_modules/react-native-sound"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AudioKit: fa163632454ff463d5f02c479e4c1fb99f2c9d44
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   Folly: c89ac2d5c6ab169cd7397ef27485c44f35f742c7
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
-  react-native-video: 44c6befbc1526283ca1919891fcebe4680feade4
-  RNSound: b360b3862d3118ed1c74bb9825696b5957686ac4
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 957b096c8e73816955563a862125ad36cdff260a
+PODFILE CHECKSUM: 4e08ef5404acd017dd91c66fc46747c9cf4e6271
 
 COCOAPODS: 1.5.3
