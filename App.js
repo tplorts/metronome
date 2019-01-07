@@ -4,8 +4,6 @@ import {
 } from 'react-native';
 import styles from './src/App.style';
 
-console.log(NativeModules.Metronome);
-
 export default class App extends PureComponent {
   state = {
     tempo: 120,
@@ -13,16 +11,16 @@ export default class App extends PureComponent {
   };
 
   componentWillMount() {
-    NativeModules.Metronome.prepareToPlay();
+    // NativeModules.Metronome.prepareToPlay();
   }
 
 
   pressPlay = () => {
-    NativeModules.Metronome.pressPlay();
+    // NativeModules.Metronome.pressPlay();
   };
 
   pressStop = () => {
-    NativeModules.Metronome.pressStop();
+    // NativeModules.Metronome.pressStop();
   };
 
   // ?? Should NM.M.onTempoChange() be inside the callback of setState()?
