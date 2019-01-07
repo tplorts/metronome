@@ -4,44 +4,42 @@ import {
 } from 'react-native';
 import styles from './src/App.style';
 
-console.log(NativeModules.Metronome);
-
 export default class App extends PureComponent {
   state = {
     tempo: 120,
     meter: 4,
-    quarterAccentMIDINote: 96,
-    quarterMIDINote: 88,
   };
 
   componentWillMount() {
-    NativeModules.Metronome.prepareToPlay();
+    // NativeModules.Metronome.prepareToPlay();
   }
 
 
   pressPlay = () => {
-    NativeModules.Metronome.pressPlay();
+    // NativeModules.Metronome.pressPlay();
   };
 
   pressStop = () => {
-    NativeModules.Metronome.pressStop();
+    // NativeModules.Metronome.pressStop();
   };
 
+  // ?? Should NM.M.onTempoChange() be inside the callback of setState()?
   onTempoChange(value) {
-    console.log(`tempo: ${value}`);
-    this.setState({ tempo: value });
-    NativeModules.Metronome.onTempoChange(value)
+    this.setState({ tempo: value }, () => {
+      console.log(`tempo: ${value}`);
+      // NativeModules.Metronome.onTempoChange(value);
+    });
   }
 
   onMeterChange(value) {
     this.setState({ meter: value }, () => {
       console.log(`meter: ${this.state.meter}/4`);
-      NativeModules.Metronome.onMeterChange(value)
+      // NativeModules.Metronome.onMeterChange(value);
     });
   }
 
   render = () => (
-    <View style={ styles.container }>
+    <View style={ styles.container } nativeID='main'>
       <Text>Tempo: { this.state.tempo }</Text>
       <Slider
         style={ styles.slider }
