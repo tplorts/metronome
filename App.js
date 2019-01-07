@@ -3,6 +3,7 @@ import {
   Button, Text, Slider, View, NativeModules,
 } from 'react-native';
 import styles from './src/App.style';
+import Metronome from './src/MetronomeModule';
 
 export default class App extends PureComponent {
   state = {
@@ -14,6 +15,9 @@ export default class App extends PureComponent {
     // NativeModules.Metronome.prepareToPlay();
   }
 
+  componentDidMount() {
+    console.log(Metronome);
+  }
 
   pressPlay = () => {
     // NativeModules.Metronome.pressPlay();
