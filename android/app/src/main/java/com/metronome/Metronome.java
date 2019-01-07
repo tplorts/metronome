@@ -2,8 +2,13 @@ package com.metronome;
 
 import android.os.Handler;
 import android.os.Message;
+import com.facebook.react.bridge.NativeModule;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
 
-public class Metronome {
+public class Metronome extends ReactContextBaseJavaModule {
 
   private double bpm;
   private int beat;
@@ -24,9 +29,22 @@ public class Metronome {
   private Message msg;
   private int currentBeat = 1;
 
-  public Metronome(Handler handler) {
+  public Metronome(ReactApplicationContext reactContext, Handler handler) {
+    super(reactContext);
     audioGenerator.createPlayer();
     this.mHandler = handler;
+  }
+
+  public void prepareToPlay() {
+    System.out.println("preparing to play");
+  }
+
+  public void pressPlay() {
+    System.out.println("play button pressed");
+  }
+
+  public void pressStop() {
+    System.out.println("stop button pressed");
   }
 
   public void calcSilence() {
@@ -76,7 +94,7 @@ public class Metronome {
     return bpm;
   }
 
-  public void setBpm(int bpm) {
+  public void onTempoChange(int bpm) {
     this.bpm = bpm;
   }
 
@@ -92,7 +110,7 @@ public class Metronome {
     return beat;
   }
 
-  public void setBeat(int beat) {
+  public void onMeterChange(int beat) {
     this.beat = beat;
   }
 
@@ -110,5 +128,12 @@ public class Metronome {
 
   public void setSound(double sound2) {
     this.sound = sound2;
+  }
+
+
+
+  @Override
+  public String getName() {
+    return "Metronome";
   }
 }

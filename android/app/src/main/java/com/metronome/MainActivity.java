@@ -1,6 +1,9 @@
 package com.metronome;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
+
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Message;
@@ -34,67 +37,7 @@ public class MainActivity extends ReactActivity {
 //        setContentView(R.layout.activity_metronome);
 
         metroTask = new MetronomeAsyncTask();
-
-        metroTask.doInBackground(); // this make beep start on startup
-
-//        final Button playButton = (Button)findViewById(R.id.playButton);
-//        final TextView tempoDisplay = (TextView)findViewById(R.id.tempoDisplay);
-//        final TextView meterDisplay = (TextView)findViewById(R.id.meterDisplay);
-//        final SeekBar tempoSlider = (SeekBar)findViewById(R.id.tempoSlider);
-//        final SeekBar meterSlider = (SeekBar)findViewById(R.id.meterSlider);
-
-//        tempoDisplay.setText(Integer.toString(bpm));
-//        tempoSlider.setProgress((short)bpm);
-//        meterDisplay.setText(Integer.toString(meter));
-//        meterSlider.setProgress((short)meter);
-
-//        playButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                onStartStopClick(v);
-//            }
-//        });
-
-//        tempoSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                System.out.println(progress);
-//                bpm = progress;
-//                tempoSlider.setProgress(progress);
-//                tempoDisplay.setText(Integer.toString(progress));
-//                metroTask.setBpm((short)progress);
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
-
-//        meterSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                System.out.println(progress);
-//                meter = progress;
-//                meterSlider.setProgress(progress);
-//                meterDisplay.setText(Integer.toString(progress));
-//                metroTask.setBeat((short)progress);
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
+//        metroTask.doInBackground(); // this make beep start on startup
 
     }
 
@@ -137,15 +80,16 @@ public class MainActivity extends ReactActivity {
     private class MetronomeAsyncTask extends AsyncTask<Void,Void,String> {
         Metronome metronome;
 
+        ReactApplicationContext reactContext;
+
         MetronomeAsyncTask() {
             mHandler = getHandler();
-            metronome = new Metronome(mHandler);
+            metronome = new Metronome(reactContext, mHandler);
         }
 
         protected String doInBackground(Void... params) {
-            metronome.setBeat(meter);
-//            metronome.setNoteValue(16);
-            metronome.setBpm(bpm);
+            metronome.onMeterChange(meter);
+            metronome.onTempoChange(bpm);
             metronome.setBeatSound(440.0);
             metronome.setSound(880.0);
 
@@ -163,14 +107,14 @@ public class MainActivity extends ReactActivity {
             metronome = null;
         }
 
-        public void setBpm(short bpm) {
-            metronome.setBpm(bpm);
+        public void onTempoChange(short bpm) {
+            metronome.onTempoChange(bpm);
             metronome.calcSilence();
         }
 
-        public void setBeat(short beat) {
+        public void onMeterChange(short beat) {
             if(metronome != null)
-                metronome.setBeat(beat);
+                metronome.onMeterChange(beat);
         }
     }
 }
