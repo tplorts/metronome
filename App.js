@@ -43,7 +43,7 @@ export default class App extends PureComponent {
     this.setState({ meter: value }, () => {
       console.log(`meter: ${this.state.meter}/4`);
       // NativeModules.Metronome.onMeterChange(value);
-      Metronome.onTempoChange(value);
+      Metronome.onMeterChange(value);
     });
   }
 
