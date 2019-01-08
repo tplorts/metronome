@@ -13,6 +13,7 @@ export default class App extends PureComponent {
 
   componentWillMount() {
     // NativeModules.Metronome.prepareToPlay();
+    Metronome.prepareToPlay();
   }
 
   componentDidMount() {
@@ -21,10 +22,12 @@ export default class App extends PureComponent {
 
   pressPlay = () => {
     // NativeModules.Metronome.pressPlay();
+    Metronome.pressPlay();
   };
 
   pressStop = () => {
     // NativeModules.Metronome.pressStop();
+    Metronome.pressStop();
   };
 
   // ?? Should NM.M.onTempoChange() be inside the callback of setState()?
@@ -32,6 +35,7 @@ export default class App extends PureComponent {
     this.setState({ tempo: value }, () => {
       console.log(`tempo: ${value}`);
       // NativeModules.Metronome.onTempoChange(value);
+      Metronome.onTempoChange(value);
     });
   }
 
@@ -39,6 +43,7 @@ export default class App extends PureComponent {
     this.setState({ meter: value }, () => {
       console.log(`meter: ${this.state.meter}/4`);
       // NativeModules.Metronome.onMeterChange(value);
+      Metronome.onTempoChange(value);
     });
   }
 
