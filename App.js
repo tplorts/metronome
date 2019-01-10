@@ -88,24 +88,6 @@ export default class App extends PureComponent {
         title='Stop'
         onPress={ this.pressStop }
       />
-      {/* <Text>Eighth Note Volume: { this.state.eighthNoteVolume }</Text>
-      <Slider
-        style={ styles.slider }
-        minimumValue={ 0 }
-        maximumValue={ 100 }
-        step={ 1 }
-        value={ this.state.eighthNoteVolume }
-        onValueChange={ (value) => this.onEighthNoteVolumeChange(value) }
-      /> */}
-      <Text>Accented MIDI Note: { this.state.accentedMIDINote }</Text>
-      <Slider
-        style={ styles.slider }
-        minimumValue={ 0 }
-        maximumValue={ 127 }
-        step={ 1 }
-        value={ this.state.accentedMIDINote }
-        onValueChange={ (value) => this.onAccentedMIDINoteChange(value) }
-      />
     </View>
   );
 }

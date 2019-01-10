@@ -15,5 +15,4 @@ RCT_EXTERN_METHOD(pressStop)
 RCT_EXTERN_METHOD(onTempoChange:(NSInteger *) value)
 RCT_EXTERN_METHOD(prepareToPlay)
 RCT_EXTERN_METHOD(onMeterChange:(NSInteger *) value)
-RCT_EXTERN_METHOD(onEighthNoteVolumeChange:(NSInteger *) value)
 @end
