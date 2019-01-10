@@ -56,7 +56,7 @@ class Metronome: NSObject {
     let sixteenthTrack = sequencer.newTrack()
     sequencer.tracks[2].setMIDIOutput(beepNode!.midiIn)
     let cbTrack = sequencer.newTrack()
-    sequencer.tracks[2].setMIDIOutput(callbackInst.midiIn)
+    sequencer.tracks[3].setMIDIOutput(callbackInst.midiIn)
     
     // sequencer settings initiation
     sequencer.setLength(AKDuration(beats: Double(numBeats)))
@@ -132,6 +132,36 @@ class Metronome: NSObject {
         sequencer.tracks[2].add(noteNumber: sixteenthMIDINote, velocity: MIDIVelocity(sixteenthVolume), position: AKDuration(beats: tempLocation), duration: AKDuration(beats: 0.05))
       }
     }
+  }
+
+  @objc
+  func onEighthNoteVolumeChange(_ value: Int) {
+    eighthVolume = value
+    
+    sequencer.tracks[0].clear()
+    sequencer.tracks[1].clear()
+    sequencer.tracks[2].clear()
+    
+    // populate track
+    for i in 0..<numBeats {
+      if i == 0 {
+        sequencer.tracks[0].add(noteNumber: quarterAccentMIDINote, velocity: MIDIVelocity(quarterVolume), position: AKDuration(beats: Double(i)), duration: AKDuration(beats: 0.05))
+      } else {
+        sequencer.tracks[0].add(noteNumber: quarterMIDINote, velocity: MIDIVelocity(quarterVolume), position: AKDuration(beats: Double(i)), duration: AKDuration(beats: 0.05))
+      }
+      
+      // add eighth notes
+      var eighthNotePosition = i + 0.5
+      sequencer.tracks[1].add(noteNumber: eighthMIDINote, velocity: MIDIVelocity(eighthVolume), position: AKDuration(beats: eighthNotePosition), duration: AKDuration(beats: 0.05))
+      
+      // add sixteenth notes
+      for j in 0..<2 {
+        var tempLocation = i + 0.25 + (0.5 * j)
+        sequencer.tracks[2].add(noteNumber: sixteenthMIDINote, velocity: MIDIVelocity(sixteenthVolume), position: AKDuration(beats: tempLocation), duration: AKDuration(beats: 0.05))
+      }
+    }
+    print("eighth note volume changed")
+    print(sequencer.tracks[1].getMIDINoteData())
   }
   
   @objc

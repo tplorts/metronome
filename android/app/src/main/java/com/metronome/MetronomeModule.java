@@ -16,6 +16,7 @@ public class MetronomeModule extends ReactContextBaseJavaModule {
 
     private int bpm = 120;
     private int meter = 4;
+    private int eighthVolume = 0;
 
     public MetronomeModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -60,6 +61,12 @@ public class MetronomeModule extends ReactContextBaseJavaModule {
         meter = value;
         metroTask.setBeat((short)meter);
         System.out.println("meter: " + value);
+    }
+
+    @ReactMethod
+    public void onEighthNoteVolumeChange(int value) {
+        eighthVolume = value;
+        System.out.println("eighth note volume: " + value);
     }
 
     private Handler getHandler() {

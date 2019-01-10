@@ -5,14 +5,16 @@ import {
 import styles from './src/App.style';
 import Metronome from './src/MetronomeModule';
 
+// ?? Why does NativeModules.Metronome not need to be called in ios build?
+
 export default class App extends PureComponent {
   state = {
     tempo: 120,
     meter: 4,
+    eighthNoteVolume: 0,
   };
 
   componentWillMount() {
-    // NativeModules.Metronome.prepareToPlay();
     Metronome.prepareToPlay();
   }
 
@@ -21,12 +23,10 @@ export default class App extends PureComponent {
   }
 
   pressPlay = () => {
-    // NativeModules.Metronome.pressPlay();
     Metronome.pressPlay();
   };
 
   pressStop = () => {
-    // NativeModules.Metronome.pressStop();
     Metronome.pressStop();
   };
 
@@ -34,7 +34,6 @@ export default class App extends PureComponent {
   onTempoChange(value) {
     this.setState({ tempo: value }, () => {
       console.log(`tempo: ${value}`);
-      // NativeModules.Metronome.onTempoChange(value);
       Metronome.onTempoChange(value);
     });
   }
@@ -42,8 +41,15 @@ export default class App extends PureComponent {
   onMeterChange(value) {
     this.setState({ meter: value }, () => {
       console.log(`meter: ${this.state.meter}/4`);
-      // NativeModules.Metronome.onMeterChange(value);
       Metronome.onMeterChange(value);
+    });
+  }
+
+  onEighthNoteVolumeChange(value) {
+    this.setState({ eighthNoteVolume: value }, () => {
+      console.log(`eighth note volume: ${this.state.eighthNoteVolume}`);
+      // Metronome.onEighthNoteVolumeChange(parseInt(value, 10));
+      NativeModules.Metronome.onEighthNoteVolumeChange(parseInt(value, 10));
     });
   }
 
@@ -74,6 +80,15 @@ export default class App extends PureComponent {
       <Button
         title='Stop'
         onPress={ this.pressStop }
+      />
+      <Text>Eighth Note Volume: { this.state.eighthNoteVolume }</Text>
+      <Slider
+        style={ styles.slider }
+        minimumValue={ 0 }
+        maximumValue={ 100 }
+        step={ 1 }
+        value={ this.state.eighthNoteVolume }
+        onValueChange={ (value) => this.onEighthNoteVolumeChange(value) }
       />
     </View>
   );
