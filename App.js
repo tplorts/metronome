@@ -12,6 +12,7 @@ export default class App extends PureComponent {
     tempo: 120,
     meter: 4,
     eighthNoteVolume: 0,
+    accentedMIDINote: 92,
   };
 
   componentWillMount() {
@@ -53,6 +54,12 @@ export default class App extends PureComponent {
     });
   }
 
+  onAccentedMIDINoteChange(value) {
+    this.setState({ accentedMIDINote: value }, () => {
+      console.log(`accented MIDI Note: ${this.state.accentedMIDINote}`);
+    });
+  }
+
   render = () => (
     <View style={ styles.container } nativeID='main'>
       <Text>Tempo: { this.state.tempo }</Text>
@@ -81,7 +88,7 @@ export default class App extends PureComponent {
         title='Stop'
         onPress={ this.pressStop }
       />
-      <Text>Eighth Note Volume: { this.state.eighthNoteVolume }</Text>
+      {/* <Text>Eighth Note Volume: { this.state.eighthNoteVolume }</Text>
       <Slider
         style={ styles.slider }
         minimumValue={ 0 }
@@ -89,6 +96,15 @@ export default class App extends PureComponent {
         step={ 1 }
         value={ this.state.eighthNoteVolume }
         onValueChange={ (value) => this.onEighthNoteVolumeChange(value) }
+      /> */}
+      <Text>Accented MIDI Note: { this.state.accentedMIDINote }</Text>
+      <Slider
+        style={ styles.slider }
+        minimumValue={ 0 }
+        maximumValue={ 127 }
+        step={ 1 }
+        value={ this.state.accentedMIDINote }
+        onValueChange={ (value) => this.onAccentedMIDINoteChange(value) }
       />
     </View>
   );

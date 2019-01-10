@@ -6,16 +6,18 @@ import android.media.AudioTrack;
 
 public class AudioGenerator {
     private int sampleRate;
+    private int volume = 0;
     private AudioTrack audioTrack;
 
     public AudioGenerator(int sampleRate) {
         this.sampleRate = sampleRate;
     }
 
-    public double[] getSineWave(int samples,int sampleRate,double frequencyOfTone) {
+    public double[] getSineWave(int samples,int sampleRate,double frequencyOfTone,int volume) {
         double[] sample = new double[samples];
+        double tempVolume = volume / 100;
         for (int i = 0; i < samples; i++) {
-            sample[i] = Math.sin(2 * Math.PI * i / (sampleRate/frequencyOfTone));
+            sample[i] = Math.sin(2 * Math.PI * i / (sampleRate/frequencyOfTone)) * 1; // last number adjusts volume
         }
         return sample;
     }
